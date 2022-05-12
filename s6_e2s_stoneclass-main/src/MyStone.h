@@ -7,7 +7,7 @@
  *  
     @file     MyStone.h
     @author   Alain Dubé
-    @version  1.2 22/02/02 
+    @version  1.1 22/08/15 
     @description
       Démonstration comment utiliser l'écran STONE
 
@@ -17,8 +17,7 @@
 
     Historique des versions
         Version    Date       Auteur       Description
-        1.1         21/08/15  Alain       Première version du logiciel
-        1.2         22/02/02  Alain       Ajout des méthodes changePage, setLabel, getVersion
+        1.1        22/08/15  Alain       Première version du logiciel
 
 **/
 #ifndef MYSTONE_H
@@ -39,21 +38,19 @@ struct datasRead {
 class MyStone {
     private:
         MySerial *mySerial;
-
         //Transfert de ces deux méthodes en privées depuis la version 1.2
         int writeIt(std::string cmdFormat2);
         int readIt(char *data, int len);
-
     public:
         MyStone(int speed, uint32_t config, int rxd, int txd);
         ~MyStone() { };
-
-        datasRead getValidsDatasIfExists(); 
-        
+        datasRead getValidsDatasIfExists();
+       
         //Nouvelles méthodes ajoutées dans la version 1.2
         void changePage(const char *pageName = "");
         void setLabel(const char *labelName, const char *value);
+        void setTextButton(const char *buttonName, const char *value);
+        void getLabel(const char *labelName, const char *value);
         void getVersion();
-
 };
 #endif
