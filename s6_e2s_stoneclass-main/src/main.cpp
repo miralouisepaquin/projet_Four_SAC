@@ -5,6 +5,8 @@
  * Ecole du Web
  * Cours Systèmes embarqués (c)2022
  *
+ * lien gitHub:https://github.com/miralouisepaquin/projet_Four_SAC.git
+ * 
     @file     main.cpp
     @author   Alain Dubé
     @version  1.4 22/08/15
@@ -144,7 +146,7 @@ void loop() {
       
       if(demarrage == 1){     //démarre juste si btn01 appuyer                
           if(tempsSechage <= tempsSechageMax){            
-            if((temperature >= (temperatureMin-(temperatureMin*1.1)))&&(temperature <= (temperatureMin+(temperatureMin*1.1)))){
+            if((temperature >= (temperatureMin-(temperatureMin*0.1)))&&(temperature <= (temperatureMin+(temperatureMin*0.1)))){
                 tempsSechage++; //ajout d'une seconde
             }
           }  
