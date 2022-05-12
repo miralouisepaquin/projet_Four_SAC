@@ -117,6 +117,29 @@ datasRead  MyStone::getValidsDatasIfExists() {
             break;
             };
 
+          case 0x1001: { //Version
+            int keyValue = (int) data[longeur-1];
+            data[longeur-1] = 0x00;
+
+            //Lire les données suivantes : TAIL (3 char ">ET") et CRC (Hexa16)
+            char TailDatas[5];
+             n = mySerial->readIt( TailDatas, 5);
+            //Check if TAIL (>ET) is OK
+            if ((n!=5) || (TailDatas[0]!='>') || (TailDatas[1]!='E') || (TailDatas[2]!='T')) return (rd);
+            //Nous ne vérifions pas le CRC pour plus de rapidité mais ce serait mieux...
+              //Traitement du CRC
+              //int crc = TailDatas[4]; crc <<= 8; crc |= TailDatas[3];
+              //std::cout << "Crc: " << intToString(crc, "%4X") << "\n";
+
+            rd.id = commande;
+            strcpy(rd.command, "button");
+            strcpy(rd.name, data);
+            rd.type = keyValue;
+
+            return (rd);
+            break;
+            };
+
         default:{
 
             int keyValue = (int) data[longeur-1];
@@ -150,13 +173,13 @@ datasRead  MyStone::getValidsDatasIfExists() {
 };
 
 int MyStone::writeIt(std::string cmdFormat2){
-    if(mySerial) mySerial->writeIt(cmdFormat2);
-    return(0);
+  if(mySerial) mySerial->writeIt(cmdFormat2);
+  return(0);
 };
  
 int MyStone::readIt(char *data, int len){
-    if(mySerial) mySerial->readIt(data, len);
-    return(0);
+  if(mySerial) mySerial->readIt(data, len);
+  return(0);
 };
 
 //Format: ST<{"cmd_code":"set_text","type":"label","widget":"label1","text":"HelloStone"}>ET
@@ -166,14 +189,22 @@ void MyStone::setLabel(const char *labelName, const char *value){
     if(mySerial) mySerial->writeIt(cmdFormat2);
     };
 
+//Format: ST<{"cmd_code":"get_value","type":"progress_bar","widget":"progress_bar"}>ET
+void MyStone::getLabel(const char *labelName, const char *value){
+    char cmdFormat2[1024];
+    sprintf(cmdFormat2, "ST<{\"cmd_code\":\"get_value\",\"type\":\"label\",\"widget\":\"%s\",\"text\":\"%s\"}>ET", labelName, value);
+    if(mySerial) mySerial->writeIt(cmdFormat2);
+    };
+
+
 //Format: ST<{\"cmd_code\":\"open_win\",\"widget\":\"window1\"}>ET
 //If pageName is empty, use home_page
 void MyStone::changePage(const char *pageName) {
     char cmdFormat2[99];
     sprintf(cmdFormat2, "ST<{\"cmd_code\":\"open_win\",\"widget\":\"%s\"}>ET", strlen(pageName) ? pageName : "home_page");
     if(mySerial) mySerial->writeIt(cmdFormat2);
-    
   };
+
 
 //Format: ST<{"cmd_code":"sys_version","type":"system"}>ET
 void MyStone::getVersion() {
@@ -181,5 +212,9 @@ void MyStone::getVersion() {
     strcpy(cmdFormat2, "ST<{\"cmd_code\":\"sys_version\",\"type\":\"system\"}>ET");
 	if(mySerial) mySerial->writeIt(cmdFormat2);
 };
-
-
+//Format: ST<{"cmd_code":"set_text","type":"button","widget":"button1","text":"HelloStone"}>ET
+void MyStone::setTextButton(const char *buttonName, const char *value){
+    char cmdFormat2[1024];
+    sprintf(cmdFormat2, "ST<{\"cmd_code\":\"set_text\",\"type\":\"button\",\"widget\":\"%s\",\"text\":\"%s\"}>ET", buttonName, value);
+    if(mySerial) mySerial->writeIt(cmdFormat2);
+    };
