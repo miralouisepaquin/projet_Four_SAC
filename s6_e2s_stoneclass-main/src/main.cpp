@@ -5,6 +5,8 @@
  * Ecole du Web
  * Cours Systèmes embarqués (c)2022
  *
+ * lien gitHub:https://github.com/miralouisepaquin/projet_Four_SAC.git
+ * 
     @file     main.cpp
     @author   Alain Dubé
     @version  1.4 22/08/15
@@ -36,8 +38,8 @@
 #define RXD2 18
 #define TXD2 19
 #define BAUD_RATE 115200
-int temperatureMin=22;//température min requise pour séchage
-int tempsSechageMax=20;//temps de séchage du bois
+int temperatureMin=20;//température min requise pour séchage
+int tempsSechageMax=15;//temps de séchage du bois
 
 #include <iostream>
 
@@ -127,8 +129,10 @@ void setup() {
   myStone->setLabel("lblf01","Érable");
   myStone->setLabel("lblf02","0");
   sprintf(bufferSechageMax,"%d",tempsSechageMax);
+  myStone->setLabel("lblb04",bufferSechageMax);
   myStone->setLabel("lblf06",bufferSechageMax);
   sprintf(bufferTemperatureMin,"%d",temperatureMin);
+  myStone->setLabel("lblb05",bufferTemperatureMin);
   myStone->setLabel("lblf07",bufferTemperatureMin);
 }
 
@@ -144,7 +148,7 @@ void loop() {
       
       if(demarrage == 1){     //démarre juste si btn01 appuyer                
           if(tempsSechage <= tempsSechageMax){            
-            if((temperature >= (temperatureMin-(temperatureMin*1.1)))&&(temperature <= (temperatureMin+(temperatureMin*1.1)))){
+            if((temperature >= (temperatureMin-(temperatureMin*0.1)))&&(temperature <= (temperatureMin+(temperatureMin*0.1)))){
                 tempsSechage++; //ajout d'une seconde
             }
           }  
