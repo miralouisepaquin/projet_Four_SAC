@@ -128,4 +128,5 @@ void loop() {
             if(myStone) myStone->getVersion();
 
           }
+          }  
   }

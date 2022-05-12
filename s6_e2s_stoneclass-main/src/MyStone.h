@@ -7,7 +7,7 @@
  *  
     @file     MyStone.h
     @author   Alain Dubé
-    @version  1.2 22/02/02 
+    @version  1.1 22/08/15 
     @description
       Démonstration comment utiliser l'écran STONE
 
@@ -17,8 +17,7 @@
 
     Historique des versions
         Version    Date       Auteur       Description
-        1.1         21/08/15  Alain       Première version du logiciel
-        1.2         22/02/02  Alain       Ajout des méthodes changePage, setLabel, getVersion
+        1.1        22/08/15  Alain       Première version du logiciel
 
 **/
 #ifndef MYSTONE_H
